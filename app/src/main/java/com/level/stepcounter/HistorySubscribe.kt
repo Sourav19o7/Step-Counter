@@ -11,6 +11,7 @@ import com.google.android.gms.common.api.PendingResult
 import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.data.DataSet
 import com.google.android.gms.fitness.data.DataType
+import com.google.android.gms.fitness.data.Field
 import com.google.android.gms.fitness.request.DataReadRequest
 import com.google.android.gms.fitness.result.DataReadResult
 import java.text.SimpleDateFormat
@@ -21,7 +22,20 @@ import kotlin.collections.ArrayList
 class HistorySubscribe {
 
     private var WEEK_IN_MS = 1000 * 60 * 60 * 24 * 7
+    private val mAdapter: History_Adapter = History_Adapter()
 
+
+//    var info = mutableMapOf(
+//        "Monday" to "Monday",
+//        "Tuesday" to "Tuesday",
+//        "Wednesday" to "Wednesday",
+//        "Thursday" to "Thursday",
+//        "Friday" to "Friday",
+//        "Saturday" to "Saturday",
+//        "Sunday" to "Sunday"
+//    )
+
+    var info = mutableMapOf<String,String>()
     var now: Date = Date()
     var endTIme = now.time
     var startTime = endTIme - (WEEK_IN_MS)
@@ -39,6 +53,20 @@ class HistorySubscribe {
                 DataType.TYPE_STEP_COUNT_DELTA,
                 DataType.AGGREGATE_STEP_COUNT_DELTA
             )
+            .aggregate(
+                DataType.TYPE_DISTANCE_DELTA,
+                DataType.AGGREGATE_DISTANCE_DELTA
+            )
+            .aggregate(DataType.TYPE_MOVE_MINUTES)
+            .aggregate(
+                DataType.TYPE_CALORIES_EXPENDED,
+                DataType.AGGREGATE_CALORIES_EXPENDED
+            )
+            .aggregate(
+                DataType.TYPE_SPEED,
+                DataType.AGGREGATE_SPEED_SUMMARY
+            )
+            .aggregate(DataType.TYPE_HEART_POINTS, DataType.AGGREGATE_HEART_POINTS)
             .bucketByTime(1, TimeUnit.DAYS)
             .setTimeRange(startTime, endTIme, TimeUnit.MILLISECONDS)
             .build()
@@ -50,23 +78,21 @@ class HistorySubscribe {
             if (it.buckets.size > 0) {
                 var i = 0
                 for (bucket in it.buckets) {
-                    i+=1
+                    i += 1
                     val dataSets: List<DataSet> = bucket.dataSets
                     for (dataSet in dataSets) {
                         processData(dataSet, items, lineChart)
-                        if (i == it.buckets.size) {
-                            while (items.size < 7)
-                            {
-                                items.add(0,"0")
-                            }
-                            Log.i("Sizecc", items.size.toString())
-                            var lc = LineChart()
-                            lc.createchart(lineChart, items)
-                        }
-
                     }
                 }
-
+                if (i == it.buckets.size) {
+                    while (items.size < 7) {
+                        items.add(0, "0")
+                    }
+                    Log.i("Sizecc", items.size.toString() + "\n" + info)
+                    var lc = LineChart()
+                    lc.createchart(lineChart, items)
+                    Common_Adapter.mAdapter.updateSteps(info)
+                }
             }
         }
     }
@@ -79,12 +105,16 @@ class HistorySubscribe {
             val div = 60 * 60 * 1000;
             val tTime = ((dpEnd - dpStart) + 100000) / div
             val simpleDateFormat = SimpleDateFormat("EEEE")
-
+            val day: String = simpleDateFormat.format(dpStart)
             for (field in dp.dataType.fields) {
-                items.add(dp.getValue(field).toString())
+                if (field == Field.FIELD_STEPS) {
+                    items.add(dp.getValue(field).toString())
+                }
+
+                info[day] += ("\n" + field.name + " = "+ dp.getValue(field))
                 Log.i(
                     "History",
-                    simpleDateFormat.format(dpStart) + " " + dp.getValue(field) + " " + tTime
+                    simpleDateFormat.format(dpStart) + " " + field.name + " = " + dp.getValue(field) + " " + tTime
                 )
             }
         }

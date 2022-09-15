@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
             .addApi(Fitness.RECORDING_API)
             .addApi(Fitness.HISTORY_API)
             .addScope(Fitness.SCOPE_LOCATION_READ)
+            .addScope(Fitness.SCOPE_BODY_READ)
             .addScope(Fitness.SCOPE_ACTIVITY_READ_WRITE)
             .addConnectionCallbacks(this)
             .addOnConnectionFailedListener(this)
@@ -309,6 +310,10 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
 
         val markerView = CustomMarker(this@MainActivity, R.layout.marker_layout)
         binding.lineChart.marker = markerView
+        binding.lineChart.setOnClickListener{
+            val intent = Intent(this, Archive::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onConnectionSuspended(p0: Int) {

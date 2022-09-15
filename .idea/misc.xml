@@ -11,7 +11,9 @@
         <entry key="..\:/StepCounter/app/src/main/res/drawable/small_circle.xml" value="0.207" />
         <entry key="..\:/StepCounter/app/src/main/res/drawable/time_icon.xml" value="0.207" />
         <entry key="..\:/StepCounter/app/src/main/res/drawable/walk.xml" value="0.207" />
+        <entry key="..\:/StepCounter/app/src/main/res/layout/activity_archive.xml" value="0.10989583333333333" />
         <entry key="..\:/StepCounter/app/src/main/res/layout/activity_main.xml" value="0.2359375" />
+        <entry key="..\:/StepCounter/app/src/main/res/layout/item_history.xml" value="0.25" />
         <entry key="..\:/StepCounter/app/src/main/res/layout/marker_layout.xml" value="0.25" />
       </map>
     </option>

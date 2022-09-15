@@ -46,7 +46,7 @@ class LineChart {
 
         lineChart.axisLeft.isEnabled = false
         lineChart.setTouchEnabled(true)
-        lineChart.setPinchZoom(true)
+        lineChart.setPinchZoom(false)
 
         lineChart.description.text = " "
         lineChart.setNoDataText("LOADING...")
