@@ -22,6 +22,10 @@ class RecordingSubscribe {
         initCallbacks()
         Fitness.RecordingApi.subscribe(mApiClient, DataType.TYPE_STEP_COUNT_CUMULATIVE)
             .setResultCallback(mSubscribeResultCallback!!)
+        Fitness.RecordingApi.subscribe(mApiClient, DataType.TYPE_MOVE_MINUTES)
+            .setResultCallback(mSubscribeResultCallback!!)
+        Fitness.RecordingApi.subscribe(mApiClient, DataType.TYPE_DISTANCE_DELTA)
+            .setResultCallback(mSubscribeResultCallback!!)
     }
     private fun initCallbacks() {
         mSubscribeResultCallback =

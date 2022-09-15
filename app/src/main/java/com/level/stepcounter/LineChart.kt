@@ -15,8 +15,6 @@ import java.time.format.DateTimeFormatter
 
 class LineChart {
 
-
-
     private val entries = ArrayList<Entry>()
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -26,7 +24,6 @@ class LineChart {
 
         val vl = LineDataSet(entries, " ")
 
-        vl
         vl.setDrawValues(false)
         vl.setDrawFilled(true)
         vl.lineWidth = 3f

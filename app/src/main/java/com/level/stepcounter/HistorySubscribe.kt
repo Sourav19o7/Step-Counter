@@ -48,13 +48,19 @@ class HistorySubscribe {
 
         pendingResult.setResultCallback {
             if (it.buckets.size > 0) {
-                Log.i("History", it.buckets.size.toString())
+                var i = 0
                 for (bucket in it.buckets) {
+                    i+=1
                     val dataSets: List<DataSet> = bucket.dataSets
                     for (dataSet in dataSets) {
                         processData(dataSet, items, lineChart)
-                        var lc = LineChart()
-                        if (items.size == 7) {
+                        if (i == it.buckets.size) {
+                            while (items.size < 7)
+                            {
+                                items.add(0,"0")
+                            }
+                            Log.i("Sizecc", items.size.toString())
+                            var lc = LineChart()
                             lc.createchart(lineChart, items)
                         }
 

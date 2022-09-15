@@ -29,6 +29,7 @@ import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.data.Field
 import com.google.android.gms.fitness.request.OnDataPointListener
 import com.level.stepcounter.databinding.ActivityMainBinding
+import java.lang.Integer.min
 
 
 class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.ConnectionCallbacks,
@@ -73,6 +74,7 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
             .addApi(Fitness.SENSORS_API)
             .addApi(Fitness.RECORDING_API)
             .addApi(Fitness.HISTORY_API)
+            .addScope(Fitness.SCOPE_LOCATION_READ)
             .addScope(Fitness.SCOPE_ACTIVITY_READ_WRITE)
             .addConnectionCallbacks(this)
             .addOnConnectionFailedListener(this)
@@ -188,24 +190,93 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
     }
 
     private fun updateUI() {
+        var totalSteps = 0
+        var calories = ""
+        var distance = ""
+        var time = ""
         Fitness.getHistoryClient(
             this,
             GoogleSignIn.getAccountForExtension(this, fitnessOptions)
         )
             .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
             .addOnSuccessListener { result ->
-                val totalSteps =
+                totalSteps =
                     result.dataPoints.firstOrNull()?.getValue(Field.FIELD_STEPS)?.asInt()
                         ?: 0
-                updateComponents(totalSteps)
+                updateSteps(totalSteps)
             }
             .addOnFailureListener { e ->
+                updateSteps(0)
                 Log.i("Connection", "There was a problem getting steps.", e)
                 Toast.makeText(this, "Can't Load Steps", Toast.LENGTH_LONG).show()
             }
+
+        Fitness.getHistoryClient(
+            this,
+            GoogleSignIn.getAccountForExtension(this, fitnessOptions)
+        )
+            .readDailyTotal(DataType.TYPE_MOVE_MINUTES)
+            .addOnSuccessListener { result ->
+                time =
+                    result.dataPoints.firstOrNull()?.getValue(Field.FIELD_DURATION)?.toString()
+                        ?: "0"
+                updateTime(time)
+            }
+            .addOnFailureListener { e ->
+                updateTime("0 min")
+                Log.i("Connection", "There was a problem getting steps.", e)
+                Toast.makeText(this, "Can't Load Steps", Toast.LENGTH_LONG).show()
+            }
+
+        Fitness.getHistoryClient(
+            this,
+            GoogleSignIn.getAccountForExtension(this, fitnessOptions)
+        )
+            .readDailyTotal(DataType.TYPE_DISTANCE_DELTA)
+            .addOnSuccessListener { result ->
+                distance =
+                    result.dataPoints.firstOrNull()?.getValue(Field.FIELD_DISTANCE)?.toString()
+                        ?: "0"
+                updateDis(distance)
+            }
+            .addOnFailureListener { e ->
+                updateDis("0 m")
+                Log.i("Connection", "There was a problem getting steps.", e)
+                Toast.makeText(this, "Can't Load Steps", Toast.LENGTH_LONG).show()
+            }
+        Fitness.getHistoryClient(
+            this,
+            GoogleSignIn.getAccountForExtension(this, fitnessOptions)
+        )
+            .readDailyTotal(DataType.TYPE_CALORIES_EXPENDED)
+            .addOnSuccessListener { result ->
+                calories =
+                    result.dataPoints.firstOrNull()?.getValue(Field.FIELD_CALORIES)?.toString()
+                        ?: "0"
+                updateCAl(calories)
+            }
+            .addOnFailureListener { e ->
+                updateCAl("0 kcal")
+                Log.i("Connection", "There was a problem getting steps.", e)
+                Toast.makeText(this, "Can't Load Steps", Toast.LENGTH_LONG).show()
+            }
+
     }
 
-    private fun updateComponents(totalSteps: Int) {
+    private fun updateTime(time: String) {
+        findViewById<TextView>(R.id.time_text).text = time + " mins"
+    }
+
+    private fun updateDis(distance: String) {
+
+        findViewById<TextView>(R.id.distance_text).text = distance.substring(0,min(distance.length,6)) + " m"
+    }
+
+    private fun updateCAl(calories: String) {
+        findViewById<TextView>(R.id.calories_text).text = calories.substring(0,min(calories.length,5)) + " kcal"
+    }
+
+    private fun updateSteps(totalSteps: Int) {
         val progress_bar = findViewById<ProgressBar>(R.id.progress_bar)
         val text_view = findViewById<TextView>(R.id.text_view_progress)
 
