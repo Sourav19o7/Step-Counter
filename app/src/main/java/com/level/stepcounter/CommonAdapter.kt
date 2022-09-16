@@ -1,5 +1,5 @@
 package com.level.stepcounter
 
-object Common_Adapter {
+object CommonAdapter {
     val mAdapter = History_Adapter()
 }

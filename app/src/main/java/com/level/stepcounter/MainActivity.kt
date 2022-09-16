@@ -11,6 +11,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
         setContentView(R.layout.activity_main)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        request()
+        //request()
 
         if (savedInstanceState != null) {
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING)
@@ -100,7 +101,7 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
             when {
                 ContextCompat.checkSelfPermission(applicationContext, permission)
                         == PackageManager.PERMISSION_GRANTED -> {
-
+                            mApiClient.connect()
                 }
                 shouldShowRequestPermissionRationale(permission) -> showDialog(
                     permission,
@@ -123,9 +124,11 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
                 for (permission in permissions) {
                     checkForPermission(permission, name, requestCode)
                 }
-                Log.i("Connection", "$name permission granted")
-            } else {
                 Log.i("Connection", "$name permission refused")
+
+            } else {
+                Log.i("Connection", "$name permission granted")
+                mApiClient.connect()
             }
         }
 
@@ -154,7 +157,7 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
 
     override fun onStart() {
         super.onStart()
-        mApiClient.connect()
+        request()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -307,12 +310,30 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
         rs.start(mApiClient)
         val ss = SensorySubscribe()
         ss.addDataSource(mApiClient, this@MainActivity)
-
+        val intent = Intent(this, ArchiveActivity::class.java)
         val markerView = CustomMarker(this@MainActivity, R.layout.marker_layout)
         binding.lineChart.marker = markerView
-        binding.lineChart.setOnClickListener{
-            val intent = Intent(this, Archive::class.java)
-            startActivity(intent)
+        binding.lineChart.setOnClickListener(object : DoubleClickListener() {
+            override fun onDoubleClick(v: View?) {
+                startActivity(intent)
+            }
+        })
+    }
+
+    abstract class DoubleClickListener : View.OnClickListener {
+        var lastClickTime: Long = 0
+        override fun onClick(v: View?) {
+            val clickTime = System.currentTimeMillis()
+            if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
+                onDoubleClick(v)
+            }
+            lastClickTime = clickTime
+        }
+
+        abstract fun onDoubleClick(v: View?)
+
+        companion object {
+            private const val DOUBLE_CLICK_TIME_DELTA: Long = 300 //milliseconds
         }
     }
 

@@ -19,7 +19,7 @@
         android:theme="@style/Theme.StepCounter"
         tools:targetApi="31">
         <activity
-            android:name=".Archive"
+            android:name=".ArchiveActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

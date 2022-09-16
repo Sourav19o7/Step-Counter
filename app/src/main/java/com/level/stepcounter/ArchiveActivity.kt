@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class Archive : AppCompatActivity() {
+class ArchiveActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +16,7 @@ class Archive : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = Common_Adapter.mAdapter
+        recyclerView.adapter = CommonAdapter.mAdapter
     }
 //    private fun fetchData() {
 //        val list = ArrayList<String>()

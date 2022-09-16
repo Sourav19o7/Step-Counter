@@ -35,10 +35,14 @@ class LineChart {
 
         lineChart.data = LineData(vl)
 
-        lineChart.xAxis.axisMaximum += 0.9f
-        lineChart.xAxis.axisMinimum -= 0.9f
 
-        lineChart.xAxis.axisLineWidth += 1f
+        if(lineChart.xAxis.axisMaximum.toInt() - lineChart.xAxis.axisMinimum.toInt() == 6)
+        {
+            lineChart.xAxis.axisMaximum += 0.9f
+            lineChart.xAxis.axisMinimum -= 0.9f
+            lineChart.xAxis.axisLineWidth += 2f
+        }
+
         lineChart.xAxis.axisLineColor = R.color.purple_200
 
 
@@ -46,6 +50,7 @@ class LineChart {
 
         lineChart.axisLeft.isEnabled = false
         lineChart.setTouchEnabled(true)
+        lineChart.isDoubleTapToZoomEnabled = false
         lineChart.setPinchZoom(false)
 
         lineChart.description.text = " "

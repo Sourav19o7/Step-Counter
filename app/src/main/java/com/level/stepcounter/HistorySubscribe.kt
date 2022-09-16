@@ -91,7 +91,8 @@ class HistorySubscribe {
                     Log.i("Sizecc", items.size.toString() + "\n" + info)
                     var lc = LineChart()
                     lc.createchart(lineChart, items)
-                    Common_Adapter.mAdapter.updateSteps(info)
+                    items.clear()
+                    CommonAdapter.mAdapter.updateSteps(info)
                 }
             }
         }
