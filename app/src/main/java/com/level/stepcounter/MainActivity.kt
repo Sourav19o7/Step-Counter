@@ -37,11 +37,9 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
     GoogleApiClient.OnConnectionFailedListener, StepDialog.StepDialogListener {
 
 
-    val sessionManager = SessionManager(this@MainActivity)
-
-    var items = ArrayList<String>()
+    private var items = ArrayList<String>()
     var totalSteps = 0
-    var progressMax = 10000
+    private var progressMax  = 0
 
     lateinit var binding: ActivityMainBinding
     private val FINE_LOCATION = 101
@@ -70,6 +68,10 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         //request()
+
+        val sessionManager = SessionManager(this@MainActivity)
+        progressMax = sessionManager.getSteps()
+        binding.targetSteps.text = "/$progressMax"
 
         if (savedInstanceState != null) {
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING)
@@ -163,8 +165,7 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
         super.onStart()
         request()
 
-        totalSteps = sessionManager.getSteps()
-        binding.targetSteps.setOnClickListener {
+        binding.targetSetter.setOnClickListener {
             openDialog()
         }
     }
@@ -297,6 +298,8 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
         val progress_bar = findViewById<ProgressBar>(R.id.progress_bar)
         val text_view = findViewById<TextView>(R.id.text_view_progress)
 
+        val sessionManager = SessionManager(this@MainActivity)
+        progressMax = sessionManager.getSteps()
         progress_bar.max = progressMax
         progress_bar.progress = totalSteps
         text_view.text = totalSteps.toString()
@@ -369,8 +372,9 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
 
     override fun applyTarget(target: String) {
         binding.targetSteps.text = target
-        sessionManager.updateTarget(totalSteps)
         progressMax = target.substring(1).toInt()
+        val sessionManager = SessionManager(this@MainActivity)
+        sessionManager.updateTarget(progressMax)
         updateSteps()
     }
 }

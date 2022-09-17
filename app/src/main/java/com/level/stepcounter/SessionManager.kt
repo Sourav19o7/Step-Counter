@@ -1,6 +1,5 @@
 package com.level.stepcounter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 
@@ -11,12 +10,9 @@ class SessionManager(context: Context?) {
     private var editor: SharedPreferences.Editor
     private var _context: Context
 
-    var PRIVATE_MODE = Context.MODE_PRIVATE
-
+    private val PRIVATE_MODE = Context.MODE_PRIVATE
     private val PREF_NAME = "Target_Steps"
-
-    val KEY_STEPS = "total_steps"
-    val IS_SET = "target_set"
+    private val KEY_STEPS = "total_steps"
 
 
     init {
@@ -27,19 +23,10 @@ class SessionManager(context: Context?) {
 
     fun updateTarget(totalSteps: Int)
     {
-        editor.putInt(KEY_STEPS,totalSteps)
-        editor.putBoolean(IS_SET, true)
-        editor.commit()
+        editor.putInt(KEY_STEPS,totalSteps).apply()
     }
 
     fun getSteps(): Int {
-        return if (isSet())
-            pref.getInt(KEY_STEPS, 10000)
-        else
-            10000
-    }
-
-    fun isSet(): Boolean {
-        return pref.getBoolean(IS_SET, false)
+        return pref.getInt(KEY_STEPS,10000)
     }
 }

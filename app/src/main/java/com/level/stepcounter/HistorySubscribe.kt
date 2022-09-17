@@ -100,7 +100,7 @@ class HistorySubscribe {
 
     private fun processData(dataSet: DataSet, items: ArrayList<String>, lineChart: LineChart) {
         for (dp in dataSet.dataPoints) {
-            val dpStart = dp.getStartTime(TimeUnit.NANOSECONDS) / 1000000 + 100000
+            val dpStart = dp.getStartTime(TimeUnit.NANOSECONDS) / 1000000 +100
             val dpEnd = dp.getEndTime(TimeUnit.NANOSECONDS) / 1000000
 
             val div = 60 * 60 * 1000;
