@@ -34,10 +34,14 @@ import java.lang.Integer.min
 
 
 class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.ConnectionCallbacks,
-    GoogleApiClient.OnConnectionFailedListener {
+    GoogleApiClient.OnConnectionFailedListener, StepDialog.StepDialogListener {
 
+
+    val sessionManager = SessionManager(this@MainActivity)
 
     var items = ArrayList<String>()
+    var totalSteps = 0
+    var progressMax = 10000
 
     lateinit var binding: ActivityMainBinding
     private val FINE_LOCATION = 101
@@ -158,6 +162,16 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
     override fun onStart() {
         super.onStart()
         request()
+
+        totalSteps = sessionManager.getSteps()
+        binding.targetSteps.setOnClickListener {
+            openDialog()
+        }
+    }
+
+    private fun openDialog() {
+        val stepDialog = StepDialog()
+        stepDialog.show(supportFragmentManager, "TARGET")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -194,7 +208,6 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
     }
 
     private fun updateUI() {
-        var totalSteps = 0
         var calories = ""
         var distance = ""
         var time = ""
@@ -207,10 +220,10 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
                 totalSteps =
                     result.dataPoints.firstOrNull()?.getValue(Field.FIELD_STEPS)?.asInt()
                         ?: 0
-                updateSteps(totalSteps)
+                updateSteps()
             }
             .addOnFailureListener { e ->
-                updateSteps(0)
+                updateSteps()
                 Log.i("Connection", "There was a problem getting steps.", e)
                 Toast.makeText(this, "Can't Load Steps", Toast.LENGTH_LONG).show()
             }
@@ -280,11 +293,11 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
         findViewById<TextView>(R.id.calories_text).text = calories.substring(0,min(calories.length,5)) + " kcal"
     }
 
-    private fun updateSteps(totalSteps: Int) {
+    private fun updateSteps() {
         val progress_bar = findViewById<ProgressBar>(R.id.progress_bar)
         val text_view = findViewById<TextView>(R.id.text_view_progress)
 
-        progress_bar.max = 10000
+        progress_bar.max = progressMax
         progress_bar.progress = totalSteps
         text_view.text = totalSteps.toString()
 
@@ -352,5 +365,12 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
         } else {
             Log.i("Connection", "authOnProgress")
         }
+    }
+
+    override fun applyTarget(target: String) {
+        binding.targetSteps.text = target
+        sessionManager.updateTarget(totalSteps)
+        progressMax = target.substring(1).toInt()
+        updateSteps()
     }
 }
