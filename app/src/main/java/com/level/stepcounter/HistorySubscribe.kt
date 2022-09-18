@@ -22,10 +22,9 @@ import kotlin.collections.ArrayList
 class HistorySubscribe {
 
     private var WEEK_IN_MS = 1000 * 60 * 60 * 24 * 7
-    private val mAdapter: History_Adapter = History_Adapter()
 
 
-    var info = mutableMapOf<String,String>()
+    var info = mutableMapOf<String,Days>()
     var now: Date = Date()
     var endTIme = now.time
     var startTime = endTIme - (WEEK_IN_MS)
@@ -98,11 +97,29 @@ class HistorySubscribe {
             val simpleDateFormat = SimpleDateFormat("EEEE")
             val day: String = simpleDateFormat.format(dpStart)
             for (field in dp.dataType.fields) {
+                if (!info.containsKey(day))
+                {
+                    val days = Days("NA","NA","NA","NA","NA")
+                    info[day] = days
+                }
                 if (field == Field.FIELD_STEPS) {
                     items.add(dp.getValue(field).toString())
+                    info[day]!!.steps = dp.getValue(field).toString()
                 }
 
-                info[day] += ("\n" + field.name + " = "+ dp.getValue(field))
+                if (field == Field.FIELD_DURATION) {
+                    info[day]!!.time = dp.getValue(field).toString()
+                }
+                if (field == Field.FIELD_DISTANCE) {
+                    info[day]!!.distance = dp.getValue(field).toString()
+                }
+                if (field == Field.FIELD_CALORIES) {
+                    info[day]!!.calories = dp.getValue(field).toString()
+                }
+                if (field == Field.FIELD_SPEED) {
+                    info[day]!!.avgSpeed = dp.getValue(field).toString()
+                }
+                //info[day]+= ("\n" + field.name + " = "+ dp.getValue(field))
                 Log.i(
                     "History",
                     simpleDateFormat.format(dpStart) + " " + field.name + " = " + dp.getValue(field) + " " + tTime

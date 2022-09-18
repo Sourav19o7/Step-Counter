@@ -300,5 +300,6 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
         val sessionManager = SessionManager(this@MainActivity)
         sessionManager.updateTarget(progressMax)
         updateSteps(totalSteps)
+        CommonAdapter.mAdapter.setTarget(progressMax)
     }
 }
