@@ -25,16 +25,6 @@ class HistorySubscribe {
     private val mAdapter: History_Adapter = History_Adapter()
 
 
-//    var info = mutableMapOf(
-//        "Monday" to "Monday",
-//        "Tuesday" to "Tuesday",
-//        "Wednesday" to "Wednesday",
-//        "Thursday" to "Thursday",
-//        "Friday" to "Friday",
-//        "Saturday" to "Saturday",
-//        "Sunday" to "Sunday"
-//    )
-
     var info = mutableMapOf<String,String>()
     var now: Date = Date()
     var endTIme = now.time

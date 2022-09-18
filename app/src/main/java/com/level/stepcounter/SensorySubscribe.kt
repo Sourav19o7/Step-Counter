@@ -46,7 +46,7 @@ class SensorySubscribe {
         val request: SensorRequest = SensorRequest.Builder()
             .setDataSource(dataSource!!)
             .setDataType(dataType)
-            .setSamplingRate(1, TimeUnit.SECONDS)
+            .setSamplingRate(3, TimeUnit.SECONDS)
             .build()
 
         Fitness.SensorsApi.add(mApiClient,request,listener)
