@@ -14,19 +14,15 @@ import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.fitness.Fitness
-import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataPoint
-import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.data.Field
 import com.google.android.gms.fitness.request.OnDataPointListener
 import com.level.stepcounter.databinding.ActivityMainBinding
@@ -64,9 +60,11 @@ class MainActivity : AppCompatActivity(), OnDataPointListener, GoogleApiClient.C
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+
         val sessionManager = SessionManager(this@MainActivity)
         progressMax = sessionManager.getSteps()
         binding.targetSteps.text = "/$progressMax"
+        CommonAdapter.mAdapter.setTarget(progressMax)
 
         if (savedInstanceState != null) {
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING)

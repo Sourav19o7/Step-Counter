@@ -23,6 +23,10 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryViewHolder>() {
         val currentItem = items[position]
         holder.steps.text = currentItem.steps
         holder.day.text=days[position]
+        holder.time.text = currentItem.time + " mins"
+        holder.distance.text = currentItem.distance.substring(0,6) + " m"
+        holder.calories.text = currentItem.calories.substring(0,5) + " kcal"
+        holder.target.text = "/$progressMax"
         holder.progressBar.max = progressMax
         holder.progressBar.progress = currentItem.steps.toInt()
     }
@@ -49,7 +53,11 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryViewHolder>() {
 }
 
 class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val steps: TextView = itemView.findViewById(R.id.steps)
-    val day: TextView = itemView.findViewById(R.id.day)
-    val progressBar: ProgressBar = itemView.findViewById(R.id.progressbar)
+    val steps: TextView = itemView.findViewById(R.id.item_steps)
+    val day: TextView = itemView.findViewById(R.id.item_day)
+    val progressBar: ProgressBar = itemView.findViewById(R.id.item_progressbar)
+    val time: TextView = itemView.findViewById(R.id.item_time)
+    val distance: TextView = itemView.findViewById(R.id.item_distance)
+    val calories: TextView = itemView.findViewById(R.id.item_calories)
+    val target: TextView = itemView.findViewById(R.id.item_target_progress)
 }
