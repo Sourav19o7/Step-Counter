@@ -6,12 +6,12 @@
     <data>
 
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_background"
-        tools:context=".ArchiveActivity"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".ArchiveActivity">
 
         <TextView
             android:id="@+id/idTVHead"
@@ -22,16 +22,41 @@
             android:padding="4dp"
             android:text="DETAILS"
             android:textAlignment="center"
-            android:textColor="@color/purple_200"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
             android:layout_marginTop="10dp"
+            android:forceDarkAllowed="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/shimmer_layout"></include>
+
+                <include layout="@layout/shimmer_layout"></include>
+
+                <include layout="@layout/shimmer_layout"></include>
+
+                <include layout="@layout/shimmer_layout"></include>
+
+                <include layout="@layout/shimmer_layout"></include>
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycclerView"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            />
+            android:layout_marginTop="10dp"
+            android:visibility="gone" />
 
     </LinearLayout>
 </layout>

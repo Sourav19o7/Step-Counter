@@ -9,82 +9,82 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gradient_bg"
         android:padding="16dp">
 
 
         <TextView
             android:id="@+id/item_day"
-            android:layout_margin="5dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:layout_margin="5dp"
+            android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Monday" />
 
         <ImageView
-            android:layout_margin="5dp"
             android:id="@+id/walk_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:src="@drawable/walk"
+            android:tint="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_day" />
+            app:layout_constraintTop_toBottomOf="@+id/item_day"
+            tools:ignore="UseAppTint" />
 
         <TextView
-            android:layout_margin="5dp"
             android:id="@+id/item_steps"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="16sp"
+            android:layout_margin="5dp"
+            android:layout_marginTop="15dp"
+            android:gravity="bottom"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@+id/walk_icon"
-            app:layout_constraintTop_toBottomOf="@id/item_day"
+            app:layout_constraintTop_toBottomOf="@+id/item_day"
             tools:text="2345" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_margin="5dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="steps"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@+id/item_steps"
-            app:layout_constraintTop_toBottomOf="@id/item_day" />
+            app:layout_constraintBottom_toTopOf="@id/item_progressbar"
+            app:layout_constraintLeft_toRightOf="@+id/item_steps" />
 
         <TextView
-            android:layout_margin="5dp"
             android:id="@+id/item_target_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textColor="@color/black"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_day"
-            android:textStyle="bold"
-            android:textColor="@color/black"
             tools:text="10000" />
 
         <ProgressBar
             android:id="@+id/item_progressbar"
-            tools:progress="30"
-            android:progressTint="#FF0000"
-            android:progressBackgroundTint="@color/black"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:progressBackgroundTint="#FFA500"
+            android:progressTint="#FF0000"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_steps" />
+            app:layout_constraintTop_toBottomOf="@id/item_steps"
+            tools:progress="30" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_margin="5dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_progressbar">
@@ -93,21 +93,21 @@
                 android:id="@+id/time_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/time_icon"
+                android:tint="@color/black"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/time_icon"
-                />
+                tools:ignore="UseAppTint" />
 
             <TextView
                 android:id="@+id/item_time"
-                tools:text="225 mins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@id/time_icon"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="225 mins" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -115,29 +115,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintRight_toRightOf="parent">
 
             <ImageView
                 android:id="@+id/distance_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/distance_icon"
+                android:tint="@color/black"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/distance_icon"
-                />
+                tools:ignore="UseAppTint" />
 
             <TextView
                 android:id="@+id/item_distance"
-                tools:text="2007m"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@id/distance_icon"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2007m" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -153,46 +153,23 @@
                 android:id="@+id/calorie_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/calories_icon"
+                android:tint="@color/black"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/calories_icon"
-                />
+                tools:ignore="UseAppTint" />
 
             <TextView
                 android:id="@+id/item_calories"
-                tools:text="145 kcal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@id/calorie_icon"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="145 kcal" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/speed"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:textColor="@color/white"-->
-        <!--            android:textSize="16sp"-->
-        <!--            android:textStyle="bold"-->
-        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--            app:layout_constraintRight_toRightOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/calories" />-->
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/hp"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:textColor="@color/white"-->
-        <!--            android:textSize="16sp"-->
-        <!--            android:textStyle="bold"-->
-        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--            app:layout_constraintRight_toRightOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/speed" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
